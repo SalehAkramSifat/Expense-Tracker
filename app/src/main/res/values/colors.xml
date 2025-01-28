@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Expensecolor">#F21313</color>
+    <color name="Budgetecolor">#34CC3A</color>
+    <color name="drawbleBac">#BEA4A2A2</color>
+    <color name="rippleColor">#BEFF0505</color>
+
+</resources>

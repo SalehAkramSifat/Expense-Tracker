@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ExpenseTracker" parent="Theme.MaterialComponents.Light.NoActionBar">
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+    </style>
+
+    <style name="Theme.ExpenseTracker" parent="Base.Theme.ExpenseTracker" />
+</resources>
