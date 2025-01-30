@@ -1,6 +1,7 @@
 package com.sifat.expensetracker
 
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat

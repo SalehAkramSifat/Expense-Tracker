@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -37,6 +38,7 @@ android {
         viewBinding = true
     }
 }
+val room_version = "2.5.2"
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -47,5 +49,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation (libs.material.v190)
+
+    implementation(libs.androidx.room.runtime)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.androidx.room.compiler)
+
+    // Optional: Room with Kotlin Extensions & Coroutines
+    implementation(libs.androidx.room.ktx)
+
 }

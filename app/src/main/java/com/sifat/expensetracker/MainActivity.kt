@@ -1,50 +1,67 @@
 package com.sifat.expensetracker
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.sifat.expensetracker.databinding.ActivityMainBinding
-import java.util.ArrayList
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var transaction: ArrayList<Transaction>
+    private lateinit var transactions: List<Transaction>
     private lateinit var transactionAdapter: TransactionAdapter
-    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var db:AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        transaction = arrayListOf(
-            Transaction("Weakend Budget", 400.00),
-            Transaction("Bananas", -4.00),
-            Transaction("Gasoline", -40.00)
-        )
+        transactions = arrayListOf()
 
-        transactionAdapter = TransactionAdapter(transaction)
-        layoutManager = LinearLayoutManager(this)
+        transactionAdapter = TransactionAdapter(transactions)
+        linearLayoutManager = LinearLayoutManager(this)
+
+        db = Room.databaseBuilder(this,
+            AppDatabase::class.java,
+            "transactions").build()
 
         binding.recyclerView.apply {
             adapter = transactionAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = linearLayoutManager
         }
+        fetchAll()
 
-        updateDashBoard()
+        binding.add.setOnClickListener {
+            val intent = Intent(this, AddTransactionActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun updateDashBoard(){
-        val totalAmount: Double = transaction.map { it.amount }.sum()
-        val budgetAmount:Double = transaction.filter { it.amount>0 }.map {it.amount}.sum()
-        val expanceAmount:Double = totalAmount - budgetAmount
+    private fun fetchAll(){
+        GlobalScope.launch {
+            db.transactionDao().insertAll(Transaction(0,"Ice Cream", -3.0,"Yummy"))
+            transactions = db.transactionDao().getAll()
 
-        binding.balance.text = "৳ %.2f".format(totalAmount)
-        binding.budget.text = "৳ %.2f".format(budgetAmount)
-        binding.expense.text = "৳ %.2f".format(expanceAmount)
+            runOnUiThread {
+                updateDashBoard()
+                transactionAdapter.setData(transactions)
+            }
+        }
+    }
+
+    private fun updateDashBoard() {
+        val totalAmount: Double = transactions.map { it.amount }.sum()
+        val budgetAmount: Double = transactions.filter { it.amount > 0 }.map { it.amount }.sum()
+        val expenseAmount: Double = totalAmount - budgetAmount
+
+        binding.balance.text = "৳%.2f".format(totalAmount)
+        binding.budget.text = "৳%.2f".format(budgetAmount)
+        binding.expense.text = "৳%.2f".format(expenseAmount)
     }
 }

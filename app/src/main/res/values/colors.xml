@@ -6,5 +6,8 @@
     <color name="Budgetecolor">#34CC3A</color>
     <color name="drawbleBac">#BEA4A2A2</color>
     <color name="rippleColor">#BEFF0505</color>
-
+    <color name="Purple">#AC05E9</color>
+    <color name="Blue">#1E88E5</color>
+    <color name="Red">#E53935</color>
+    <color name="LightGray">#F5F5F5</color>
 </resources>
