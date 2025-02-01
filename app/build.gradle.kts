@@ -57,7 +57,5 @@ dependencies {
 
     // Optional: Room with Kotlin Extensions & Coroutines
     implementation(libs.androidx.room.ktx)
-
     implementation(libs.material.v140alpha02)
-
 }
