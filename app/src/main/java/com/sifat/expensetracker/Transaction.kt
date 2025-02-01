@@ -1,20 +1,16 @@
 package com.sifat.expensetracker
 
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "transactions")
 data class Transaction(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-
-    @ColumnInfo(name = "level")
-    val level: String,
-
-    @ColumnInfo(name = "amount")
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val label: String,
     val amount: Double,
-
-    @ColumnInfo(name = "description")
-    val description: String
-)
+    val description: String): Serializable {
+}
