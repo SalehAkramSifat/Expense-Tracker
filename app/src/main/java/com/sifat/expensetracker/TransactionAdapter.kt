@@ -1,6 +1,6 @@
 package com.sifat.expensetracker
 
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,37 +8,46 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class TransactionAdapter(private var transaction: List<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
+class TransactionAdapter(private var transactions: List<Transaction>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val label: TextView = view.findViewById(R.id.label)
-        val amount: TextView = view.findViewById(R.id.ammount)
+        val label : TextView = view.findViewById(R.id.label)
+        val amount : TextView = view.findViewById(R.id.amount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.transaction, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction, parent, false)
         return TransactionHolder(view)
     }
 
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
-        val transaction: Transaction = transaction[position]
-        val context: Context = holder.amount.context
+        val transaction = transactions[position]
+        val context = holder.amount.context
 
-        if (transaction.amount >= 0) {
-            holder.amount.text = "+ ৳%.2f".format(transaction.amount)
+        if(transaction.amount >= 0){
+            holder.amount.text = "+ $%.2f".format(transaction.amount)
             holder.amount.setTextColor(ContextCompat.getColor(context, R.color.Budgetecolor))
-        } else {
-            holder.amount.text = "- ৳%.2f".format(Math.abs(transaction.amount))
+        }else {
+            holder.amount.text = "- $%.2f".format(Math.abs(transaction.amount))
             holder.amount.setTextColor(ContextCompat.getColor(context, R.color.Expensecolor))
         }
-        holder.label.text = transaction.level
+
+        holder.label.text = transaction.label
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailedActivity::class.java)
+            intent.putExtra("transaction", transaction)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
-        return transaction.size
+        return transactions.size
     }
-    fun setData(transaction: List<Transaction>){
-        this.transaction = transaction
+
+    fun setData(transactions: List<Transaction>){
+        this.transactions = transactions
         notifyDataSetChanged()
     }
 }
