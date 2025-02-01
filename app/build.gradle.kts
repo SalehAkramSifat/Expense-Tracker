@@ -50,11 +50,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
     implementation(libs.androidx.room.runtime)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.androidx.room.compiler)
 
     // Optional: Room with Kotlin Extensions & Coroutines
     implementation(libs.androidx.room.ktx)
+
+    implementation(libs.material.v140alpha02)
 
 }
